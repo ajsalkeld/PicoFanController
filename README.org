@@ -1,6 +1,4 @@
-#+title: Pi Pico (RP2040) Fan Controller
-
-* Pi Pico (RP2040) Fan Controller
+* Pi Pico (RP2040) Fan Controller: README
 
 This easily extendible example application implements a basic fan controller using a Raspberry Pi Pico.
 
