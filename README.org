@@ -1,0 +1,40 @@
+#+title: Pi Pico (RP2040) Fan Controller
+
+* Pi Pico (RP2040) Fan Controller
+
+This easily extendible example application implements a basic fan controller using a Raspberry Pi Pico.
+
+** Hardware
+- Pi Pico
+- Temperature sensor (I use MCP9808)
+- Computer PWM fan (I use 12v Noctua NF-A9)
+- Buffer to bring logic to 5v (I use [[https://www.adafruit.com/product/1787][74AHCT125]])
+- Power supply for the fan (12v in my case)
+- USB power for the Pico
+
+  Optionally also a MOSFET to turn the fan off - if yours doesn't reach 0 RPM at 0% PWM.
+** Software
+# #+include: "./doc/output.puml" src plantuml :file doc/class-diag.png
+
+[[./doc/class-diag.png]]
+
+This repository provides a hardware-agnostic =FanController= object, and a =Fan= object for communicating with the fan using the RP2040 SDK. =FanWithMOSFET= is an untested extension of =Fan= for using a MOSFET (or relay) to shutdown the fan completely. =TempSensor= is an abstract class / interface for a temperature sensor: you need to provide code for communicating to your temperature sensor. =/mcp9808.hpp= is provided in this repository as an example.
+
+#+begin_src text
+.
+├── CMakeLists.txt
+├── main.cpp
+├── mcp9808.hpp
+├── README.org
+└── src
+    ├── fan_controller.cpp
+    ├── fan.cpp
+    └── include
+        ├── fan_controller.h
+        ├── fan.h
+        └── temp_sensor.h
+#+end_src
+
+=/main.cpp= shows how I use the fan controller to communicate over USB serial to a Raspberry Pi running Home Assistant.
+
+To modify the fan profile, edit the switch-case statement in =src/fan_controller.cpp=.

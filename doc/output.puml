@@ -1,0 +1,70 @@
+@startuml
+
+/' Objects '/
+
+class Fan {
+	+Fan(unsigned int gpio_pwm)
+	+getPercent() : uint8_t {query}
+	#gpio_pwm : uint8_t
+	#pwm_percent : uint8_t
+	+setPercent(uint8_t p) : void
+}
+
+
+class FanController {
+	+FanController(Fan* fan, TempSensor* tempSensor)
+	-fan : Fan*
+	-tempSensor : TempSensor*
+	-fanCtrlerIsRunning : bool
+	+isFanRunning() : bool
+	+fullBlast() : void
+	+switchOff() : void
+	+switchOn() : void
+	+unFullBlast() : void
+	+update() : void
+}
+
+
+class FanWithMOSFET {
+	+FanWithMOSFET(uint8_t gpio_pwm, uint8_t gpio_dc)
+	#gpio_dc : uint8_t
+	+setPercent(uint8_t p) : void
+	+turnOff() : void {query}
+	+turnOn() : void {query}
+}
+
+
+abstract class TempSensor {
+	+{abstract} getTempFloat() : float
+	+{abstract} getTemp() : int16_t
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+.Fan <|-- .FanWithMOSFET
+
+
+
+
+
+/' Aggregation relationships '/
+
+.FanController o-- .Fan
+
+
+.FanController o-- .TempSensor
+
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml
