@@ -14,11 +14,11 @@ void FanController::update ()
 
     switch (temperature)
     {
-        case 0 ... 23*128:
+        case 0 ... 25*128:
             fan->setPercent(0);
             break;
 
-        case (23*128 +1) ... 35*128:
+        case (25*128 +1) ... 35*128:
             fan->setPercent(10*temperature/128 - 250);
             break;
 
